@@ -1,0 +1,38 @@
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/th_nmos.sch
+**.subckt th_nmos
+E1 vip vsc vsd GND 0.5
+E2 vim vsc vsd GND -0.5
+Vcm vsc GND {vcm}
+V1 VDD GND {vdd}
+XM1 vip vgp vop GND sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+C2 vop GND {cl} m=1
+V2 vgp GND pulse 0 1.2 '0.495/ 10e6 ' '0.01/10e6 ' '0.01/10e6 ' '0.49/10e6 ' '1/10e6 '
+Vdm vsd GND sin(0 {vamp} {fin} 0)
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 vcm=0.7 vamp=0.2
+.param w=10u l=0.13u nf=5
+.param cl=1p
+.param nfft=16 fclk=10Meg per=1/fclk cycles=3 fin=fclk*cycles/nfft
+
+.csparam per = 10n
+.csparam tstart = per/4
+.csparam tstop = per*(nfft+3)
+.option method=gear reltol=1e-6
+
+.control
+    tran 1n $&tstop
+    write th_nmos.raw
+
+    option interp
+    tran $&per $&tstop $&tstart
+    write th_nmos_samp.raw
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
