@@ -13,7 +13,7 @@ divy=5
 subdivy=4
 unity=1
 x1=0
-x2=1.9e-06
+x2=3.5e-06
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -26,7 +26,7 @@ unitx=1
 logx=0
 logy=0
 sim_type=tran
-rawfile=./simulations/th_nmos.raw
+rawfile=./simulation/th_nmos.raw
 autoload=1}
 N 310 -330 350 -330 {
 lab=vsd}
@@ -73,19 +73,19 @@ lab=vgp}
 N 50 -470 50 -450 {
 lab=GND}
 N 660 -310 660 -240 {lab=GND}
-C {devices/code_shown.sym} 950 -550 0 0 {name=COMMANDS
+C {devices/code_shown.sym} 970 -660 0 0 {name=COMMANDS
 simulator=ngspice
 only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
-.param vdd=1.2 vcm=0.7 vamp=0.2
+.param vdd=1.2 vcm=0.3 vamp=0.2
 .param w=10u l=0.13u nf=5
 .param cl=1p
-.param nfft=16 fclk=10Meg per=1/fclk cycles=3 fin=fclk*cycles/nfft
+.param nfft=32 fclk=10Meg per=1/fclk bin=11 fin=fclk*bin/nfft
 
-.csparam per = 10n
+.csparam per = per
 .csparam tstart = per/4
-.csparam tstop = per*(nfft+3)
+.csparam tstop = per*(nfft+3)\}
 .option method=gear reltol=1e-6
 
 .control
@@ -93,8 +93,18 @@ value="
     write th_nmos.raw
  
     option interp
-    tran $&per $&tstop $&tstart
-    write th_nmos_samp.raw
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=15 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran $&per $&tstop $&tstart
+      wrdata th_nmos.txt v(vop) 
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
 .endc
 "}
 C {devices/vcvs.sym} 230 -310 0 1 {name=E1 value=0.5}
@@ -132,7 +142,7 @@ C {devices/gnd.sym} 50 -450 0 0 {name=l2 lab=GND}
 C {sqwsource.sym} 50 -500 0 0 {name=V2 vhi=1.2 freq=10e6}
 C {devices/gnd.sym} 660 -240 0 0 {name=l4 lab=GND}
 C {devices/lab_wire.sym} 770 -310 0 0 {name=p2 sig_type=std_logic lab=vop}
-C {launcher.sym} 1050 -690 0 0 {name=h5
+C {launcher.sym} 1030 -880 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/th_nmos.raw tran"
 }
