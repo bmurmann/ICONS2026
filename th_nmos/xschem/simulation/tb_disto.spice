@@ -1,0 +1,68 @@
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/tb_disto.sch
+**.subckt tb_disto
+E1 vsp vsc vsd GND 0.5
+E2 vsm vsc vsd GND -0.5
+Vcm vsc GND {vcm}
+Vsup vdd GND {vdd}
+Vdm vsd GND sin(0 {vamp} {fin} 0)
+x1 track vip vop vom vim GND vdd th_nmos
+Rp vsp vip 50 m=1
+Rm vim vsm 50 m=1
+Vtrk track GND pulse(0 vdd 0 {trf} {trf} {per/2} {per} 0)
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 vcm=0.3 vamp=0.2
+.param cl=1p w=10u l=0.13u nf=5
+.param nfft=32 fclk=10Meg per=1/fclk trf=100p
+.param bin=11 fin=fclk*bin/nfft
+
+.csparam per = per
+.csparam t1 = 3*per
+.csparam tstart = per/4
+.csparam tstop = per*(nfft+3)}
+.option method=gear reltol=1e-6
+
+.control
+    tran 1n $&t1
+    write tb_disto.raw
+
+    option interp
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=15 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran $&per $&tstop $&tstart
+      wrdata tb_disto.txt v(vop, vom)
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  th_nmos.sym # of pins=7
+** sym_path: /foss/designs/ICONS2026/th_nmos/xschem/th_nmos.sym
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/th_nmos.sch
+.subckt th_nmos track vip vop vom vim vss vdd
+*.ipin vip
+*.opin vop
+*.ipin vim
+*.opin vom
+*.ipin track
+*.iopin vss
+*.iopin vdd
+XMp vip track vop GND sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cp vop vss {cl} m=1
+XMm vim track vom GND sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cm vom vss {cl} m=1
+.ends
+
+.GLOBAL GND
+.end
