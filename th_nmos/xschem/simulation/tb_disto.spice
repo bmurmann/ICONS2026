@@ -13,11 +13,9 @@ Vtrk track GND pulse(0 vdd 0 {trf} {trf} {per/2} {per} 0)
 
 
 .lib cornerMOSlv.lib mos_tt
-.param vdd=1.2 vcm=0.3 vamp=0.2
-.param cl=1p w=10u l=0.13u nf=5
-.param nfft=32 fclk=10Meg per=1/fclk trf=100p
+.inc th_nmos_params.txt
+.param nfft=32 per=1/fclk
 .param bin=11 fin=fclk*bin/nfft
-
 .csparam per = per
 .csparam t1 = 3*per
 .csparam tstart = per/4
