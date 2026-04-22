@@ -6,20 +6,26 @@ S {}
 E {}
 N 560 -500 660 -500 {lab=vop}
 N 660 -500 660 -450 {lab=vop}
-N 530 -500 530 -430 {lab=vss}
+N 530 -500 530 -430 {lab=#net1}
 N 660 -500 760 -500 {lab=vop}
 N 560 -280 660 -280 {lab=vom}
 N 660 -280 660 -230 {lab=vom}
 N 530 -360 530 -320 {lab=track}
-N 530 -280 530 -190 {lab=vss}
+N 530 -280 530 -190 {lab=#net2}
 N 660 -280 760 -280 {lab=vom}
 N 530 -590 530 -540 {lab=track}
 N 430 -590 530 -590 {lab=track}
 N 660 -390 660 -360 {lab=vss}
 N 660 -170 660 -130 {lab=vss}
 N 430 -130 660 -130 {lab=vss}
+N 470 -430 530 -430 {lab=#net1}
 N 430 -500 500 -500 {lab=vip}
-N 430 -280 500 -280 {lab=vim}
+N 470 -190 530 -190 {lab=#net2}
+N 470 -280 500 -280 {lab=vim}
+N 470 -280 470 -260 {lab=vim}
+N 430 -280 470 -280 {lab=vim}
+N 470 -200 470 -190 {lab=#net2}
+N 470 -440 470 -430 {lab=#net1}
 C {sg13g2_pr/sg13_lv_nmos.sym} 530 -520 3 1 {name=Mp
 l=\{l\}
 w=\{w/nf\}
@@ -56,5 +62,5 @@ C {ipin.sym} 430 -590 0 0 {name=p7 lab=track}
 C {devices/lab_wire.sym} 660 -360 2 1 {name=p3 sig_type=std_logic lab=vss}
 C {iopin.sym} 430 -130 0 1 {name=p8 lab=vss}
 C {iopin.sym} 430 -650 0 1 {name=p10 lab=vdd}
-C {devices/lab_wire.sym} 530 -430 2 1 {name=p9 sig_type=std_logic lab=vss}
-C {devices/lab_wire.sym} 530 -190 2 1 {name=p11 sig_type=std_logic lab=vss}
+C {vsource.sym} 470 -230 0 0 {name=V1 value=0.1 savecurrent=false}
+C {vsource.sym} 470 -470 0 0 {name=V2 value=0.1 savecurrent=false}

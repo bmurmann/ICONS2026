@@ -1,0 +1,72 @@
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/tb_th_nmos_bulk.sch
+**.subckt tb_th_nmos_bulk
+E1 vsp vsc vsd GND 0.5
+E2 vsm vsc vsd GND -0.5
+Vcm vsc GND vcm
+Vsup vdd GND vdd
+Vdm vsd GND sin(0 vamp fin 0)
+x1 track vip vop vom vim GND vdd th_nmos_bulk
+Rp vsp vip rs m=1
+Rm vim vsm rs m=1
+Vtrk track GND dc vdd pulse(0 vdd 0 trf trf {per/2} per 0)
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 vcm=0.3 vamp=0.4
+.param rs=1m cl=5p w=100u l=0.13u nf=20
+.param nfft=32 fclk=500Meg per=1/fclk trf=50p
+.param bin=7 fin=fclk*bin/nfft
+
+.csparam per = per
+.csparam t1 = 4*per
+.csparam tstart = per/4
+.csparam tstop = per*(nfft+3.1)
+.option method=gear reltol=1e-6
+
+.control
+    tran 1n $&t1
+    write tb_th_nmos_bulk.raw
+
+    option interp
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=15 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran $&per $&tstop $&tstart
+      wrdata tb_th_nmos_bulk.txt v(vop, vom)
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
+    op
+    show
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  th_nmos_bulk.sym # of pins=7
+** sym_path: /foss/designs/ICONS2026/th_nmos/xschem/th_nmos_bulk.sym
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/th_nmos_bulk.sch
+.subckt th_nmos_bulk track vip vop vom vim vss vdd
+*.ipin vip
+*.opin vop
+*.ipin vim
+*.opin vom
+*.ipin track
+*.iopin vss
+*.iopin vdd
+XMp vip track vop net1 sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cp vop vss {cl} m=1
+XMm vim track vom net2 sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cm vom vss {cl} m=1
+V1 vim net2 0.1
+V2 vip net1 0.1
+.ends
+
+.GLOBAL GND
+.end

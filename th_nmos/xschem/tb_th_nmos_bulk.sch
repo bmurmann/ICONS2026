@@ -5,31 +5,30 @@ V {}
 S {}
 E {}
 B 2 180 -850 810 -560 {flags=graph
-y1=0
-y2=0.5
+y1=0.09
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
 x1=0
-x2=3e-07
+x2=6e-09
 divx=5
 subdivx=1
 xlabmag=1.0
 ylabmag=1.0
 node="vsp
-vop
-vom"
-color="4 5 6"
+vop"
+color="4 5"
 dataset=-1
 unitx=1
 logx=0
 logy=0
 sim_type=tran
-rawfile=./simulation/tb_disto.raw
+rawfile=./simulation/tb_th_nmos_bulk.raw
 autoload=1
-hilight_wave=1}
+hilight_wave=1
+y2=0.5}
 N 310 -330 350 -330 {
 lab=vsd}
 N 130 -370 130 -220 {
@@ -78,20 +77,20 @@ simulator=ngspice
 only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
-.param vdd=1.2 vcm=0.3 vamp=0.2
-.param cl=1p w=10u l=0.13u nf=5
-.param nfft=32 fclk=10Meg per=1/fclk trf=100p 
-.param bin=11 fin=fclk*bin/nfft
+.param vdd=1.2 vcm=0.3 vamp=0.4
+.param rs=1m cl=5p w=100u l=0.13u nf=20
+.param nfft=32 fclk=500Meg per=1/fclk trf=50p 
+.param bin=7 fin=fclk*bin/nfft
 
 .csparam per = per
-.csparam t1 = 3*per
+.csparam t1 = 4*per
 .csparam tstart = per/4
-.csparam tstop = per*(nfft+3)\}
+.csparam tstop = per*(nfft+3.1)
 .option method=gear reltol=1e-6
 
 .control
     tran 1n $&t1
-    write tb_disto.raw
+    write tb_th_nmos_bulk.raw
  
     option interp
     set wr_singlescale
@@ -101,20 +100,22 @@ value="
       alterparam bin=$i
       reset
       tran $&per $&tstop $&tstart
-      wrdata tb_disto.txt v(vop, vom) 
+      wrdata tb_th_nmos_bulk.txt v(vop, vom) 
       set appendwrite
       unset set wr_vecnames
     end
     unset appendwrite
+    op
+    show
 .endc
 "}
 C {devices/vcvs.sym} 230 -310 0 1 {name=E1 value=0.5}
 C {devices/vcvs.sym} 390 -310 0 0 {name=E2 value=-0.5}
-C {devices/vsource.sym} 310 -190 0 0 {name=Vcm value=\{vcm\} savecurrent=false}
+C {devices/vsource.sym} 310 -190 0 0 {name=Vcm value=vcm savecurrent=false}
 C {devices/gnd.sym} 130 -140 0 0 {name=l5 lab=GND}
 C {devices/gnd.sym} 310 -140 0 0 {name=l6 lab=GND}
 C {devices/gnd.sym} 310 -270 0 0 {name=l7 lab=GND}
-C {devices/vsource.sym} 670 -260 0 0 {name=Vsup value=\{vdd\} savecurrent=false}
+C {devices/vsource.sym} 670 -260 0 0 {name=Vsup value=vdd savecurrent=false}
 C {devices/lab_wire.sym} 670 -300 0 0 {name=p5 sig_type=std_logic lab=vdd}
 C {devices/gnd.sym} 670 -230 0 0 {name=l1 lab=GND}
 C {devices/lab_wire.sym} 130 -370 0 1 {name=p12 sig_type=std_logic lab=vsd}
@@ -126,10 +127,10 @@ C {launcher.sym} 1010 -190 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/th_nmos.raw tran"
 }
-C {vsource.sym} 130 -190 0 0 {name=Vdm value="sin(0 \{vamp\} \{fin\} 0)" savecurrent=false}
-C {th_nmos.sym} 720 -460 0 0 {name=x1}
+C {vsource.sym} 130 -190 0 0 {name=Vdm value="sin(0 vamp fin 0)" savecurrent=false}
+C {th_nmos_bulk.sym} 720 -460 0 0 {name=x1}
 C {res.sym} 460 -480 3 0 {name=Rp
-value=50
+value=rs
 footprint=1206
 device=resistor
 m=1}
@@ -137,12 +138,12 @@ C {devices/gnd.sym} 720 -360 0 0 {name=l3 lab=GND}
 C {devices/lab_wire.sym} 870 -460 0 1 {name=p2 sig_type=std_logic lab=vop}
 C {devices/lab_wire.sym} 870 -420 0 1 {name=p3 sig_type=std_logic lab=vom}
 C {res.sym} 460 -440 1 0 {name=Rm
-value=50
+value=rs
 footprint=1206
 device=resistor
 m=1}
 C {devices/lab_wire.sym} 230 -400 0 1 {name=p4 sig_type=std_logic lab=vsp}
 C {devices/lab_wire.sym} 390 -400 0 1 {name=p6 sig_type=std_logic lab=vsm}
-C {vsource.sym} 500 -190 0 0 {name=Vtrk value="pulse(0 vdd 0 \{trf\} \{trf\} \{per/2\} \{per\} 0)" savecurrent=false}
+C {vsource.sym} 500 -190 0 0 {name=Vtrk value="dc vdd pulse(0 vdd 0 trf trf \{per/2\} per 0)" savecurrent=false}
 C {devices/lab_wire.sym} 520 -480 0 1 {name=p8 sig_type=std_logic lab=vip}
 C {devices/lab_wire.sym} 520 -440 0 1 {name=p9 sig_type=std_logic lab=vim}

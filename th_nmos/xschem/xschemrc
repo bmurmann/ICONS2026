@@ -5,3 +5,6 @@ if {![info exists PDK]} {
 
 # Add current directory to xschem library path
 append XSCHEM_LIBRARY_PATH :[file dirname [info script]]
+
+# Use local directory for netlists
+set local_netlist_dir 1

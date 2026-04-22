@@ -1,3 +1,0 @@
-.param fclk=10Meg trf=100p 
-.param vdd=1.2 vcm=0.5 vamp=0.3
-.param cl=1p w=10u l=0.13u nf=5 
