@@ -1,0 +1,34 @@
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/th_boot.sch
+**.subckt th_boot track vip vop vom vim vss vdd
+*.ipin vip
+*.opin vop
+*.ipin vim
+*.opin vom
+*.ipin track
+*.iopin vss
+*.iopin vdd
+XMp vip vgp vop vss sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cp vop vss {cl} m=1
+XMm vim track vom vss sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cm vom vss {cl} m=1
+Cm1 vtop vbot {cb} m=1
+S1 vbot vss ph vss SW1
+S2 vdd vtop ph vss SW1
+S3 vgp vtop pt vss SW1
+S4 vip vbot pt vss SW1
+x1 track VDD VSS trackb sg13g2_inv_2
+S5 vss vgp ph vss SW1
+x2 trackb net1 VDD VSS net2 sg13g2_nand2_2
+x3 net2 track VDD VSS net1 sg13g2_nand2_2
+x4 net2 VDD VSS ph sg13g2_inv_2
+x5 net1 VDD VSS pt sg13g2_inv_2
+XMdum net3 net4 net3 vss sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+V1 net3 vss vcm
+V2 net4 net3 vdd
+**.ends
+**** begin user architecture code
+.MODEL SW1 SW
++ VT=0.6 VH=0.1
++ RON=1 ROFF=10G
+**** end user architecture code
+.end

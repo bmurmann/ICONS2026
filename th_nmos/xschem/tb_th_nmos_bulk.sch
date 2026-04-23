@@ -5,14 +5,14 @@ V {}
 S {}
 E {}
 B 2 180 -850 810 -560 {flags=graph
-y1=0.09
+y1=0.24
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
 x1=0
-x2=6e-09
+x2=8e-09
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -28,7 +28,7 @@ sim_type=tran
 rawfile=./simulation/tb_th_nmos_bulk.raw
 autoload=1
 hilight_wave=1
-y2=0.5}
+y2=0.45}
 N 310 -330 350 -330 {
 lab=vsd}
 N 130 -370 130 -220 {
@@ -80,12 +80,12 @@ value="
 .param vdd=1.2 vcm=0.3 vamp=0.4
 .param rs=1m cl=5p w=100u l=0.13u nf=20
 .param nfft=32 fclk=500Meg per=1/fclk trf=50p 
-.param bin=7 fin=fclk*bin/nfft
+.param bin=1 fin=fclk*bin/nfft
 
 .csparam per = per
 .csparam t1 = 4*per
-.csparam tstart = per/4
-.csparam tstop = per*(nfft+3.1)
+.csparam tstart = 3/4*per
+.csparam tstop = \{3/4*per + per*(nfft+3)\}
 .option method=gear reltol=1e-6
 
 .control
@@ -100,13 +100,14 @@ value="
       alterparam bin=$i
       reset
       tran $&per $&tstop $&tstart
-      wrdata tb_th_nmos_bulk.txt v(vop, vom) 
+      wrdata tb_th_nmos_bulk.txt v(vop) 
       set appendwrite
       unset set wr_vecnames
     end
     unset appendwrite
     op
     show
+    display
 .endc
 "}
 C {devices/vcvs.sym} 230 -310 0 1 {name=E1 value=0.5}

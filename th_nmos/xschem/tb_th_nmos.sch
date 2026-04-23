@@ -80,12 +80,12 @@ value="
 .param vdd=1.2 vcm=0.3 vamp=0.4
 .param rs=1m cl=5p w=100u l=0.13u nf=20
 .param nfft=32 fclk=500Meg per=1/fclk trf=50p 
-.param bin=7 fin=fclk*bin/nfft
+.param bin=1 fin=fclk*bin/nfft
 
 .csparam per = per
 .csparam t1 = 4*per
-.csparam tstart = per/4
-.csparam tstop = per*(nfft+3.1)
+.csparam tstart = 3/4*per
+.csparam tstop = \{3/4*per + per*(nfft+3)\}
 .option method=gear reltol=1e-6
 
 .control
@@ -100,7 +100,7 @@ value="
       alterparam bin=$i
       reset
       tran $&per $&tstop $&tstart
-      wrdata tb_th_nmos.txt v(vop, vom) 
+      wrdata tb_th_nmos.txt v(vop) 
       set appendwrite
       unset set wr_vecnames
     end
