@@ -1,11 +1,12 @@
-v {xschem version=3.4.7 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
 B 2 180 -850 810 -560 {flags=graph
-y1=-2.1e-08
+y1=0.21
 ypos1=0
 ypos2=2
 divy=5
@@ -24,10 +25,10 @@ logy=0
 sim_type=tran
 rawfile=./simulation/tb_th_boot.raw
 autoload=1
-hilight_wave=-1
-y2=1.6
+hilight_wave=0
+y2=0.43
 color=7
-node=x1.vgp}
+node=vop}
 N 310 -330 350 -330 {
 lab=vsd}
 N 130 -370 130 -220 {
@@ -71,22 +72,22 @@ N 490 -480 570 -480 {lab=vip}
 N 490 -440 570 -440 {lab=vim}
 N 390 -440 430 -440 {lab=vsm}
 N 230 -480 430 -480 {lab=vsp}
-C {devices/code_shown.sym} 930 -820 0 0 {name=COMMANDS
+C {devices/code_shown.sym} 910 -840 0 0 {name=COMMANDS
 simulator=ngspice
 only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
-.param vdd=1.2 vcm=0.3 vamp=0.4
-.param rs=1m cl=5p cb=5p w=50u l=0.13u nf=10
-.param nfft=32 fclk=500Meg per=1/fclk trf=50p 
+.param vdd=1.2 vcm=0.3 vamp=0.4 vh=0 rsw=20 roff=1e8
+.param rs=30 cl=5p cb=5p w=50u l=0.13u nf=10
+.param nfft=32 fclk=500Meg per=1/fclk trf=100p 
 .param bin=1 fin=fclk*bin/nfft
 
 .csparam per = per
 .csparam t1 = 4*per
-.csparam tstart = 3/4*per
-.csparam tstop = \{3/4*per + per*(nfft+3)\}
-.option method=gear reltol=1e-6 delmax=1p
+.csparam tstart = 1.5n
+.csparam tstop = \{1.5n + per*(nfft+5)\}
+.option method=trap reltol=1e-5
 
 .control
     tran 1n $&t1

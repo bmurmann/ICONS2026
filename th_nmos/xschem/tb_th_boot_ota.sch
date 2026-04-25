@@ -1,8 +1,9 @@
-v {xschem version=3.4.7 file_version=1.2}
+v {xschem version=3.4.8RC file_version=1.3}
 G {}
 K {}
 V {}
 S {}
+F {}
 E {}
 B 2 180 -850 810 -560 {flags=graph
 y1=-0.56
@@ -79,15 +80,15 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 vcm=0.3 vamp=0.4
-.param rs=1m cl=5p cb=5p w=50u l=0.13u nf=10
-.param nfft=32 fclk=500Meg per=1/fclk trf=50p 
+.param rs=10 cl=5p cb=5p w=50u l=0.13u nf=10 rsw=20 vh=0
+.param nfft=32 fclk=500Meg per=1/fclk trf=100p 
 .param bin=1 fin=fclk*bin/nfft
 
 .csparam per = per
 .csparam t1 = 4*per
-.csparam tstart = 4/4*per
-.csparam tstop = \{4/4*per + per*(nfft+4)\}
-.option method=gear reltol=1e-5
+.csparam tstart = 2.05n
+.csparam tstop = \{2.05n + per*(nfft+5)\}
+.option method=trap reltol=1e-6
 
 .control
     tran 1n $&t1
