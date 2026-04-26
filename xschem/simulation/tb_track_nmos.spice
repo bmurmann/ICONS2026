@@ -1,0 +1,62 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_track_nmos.sch
+**.subckt tb_track_nmos
+Vi vi1 GND sin({viq} vamp fin 0)
+Vg vg1 GND vdd
+XM1 vo1 vg1 vi1 GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+C1 vo1 GND cl m=1
+Vi1 vi2 GND sin({viq} vamp fin 0)
+XM2 vo2 vg2 vi2 GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+C2 vo2 GND cl m=1
+C3 vg2 vi2 cb ic=vdd m=1
+XM3 net1 net3 net2 GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+C4 net1 GND cl m=1
+Vg1 net3 net2 vdd
+Vg2 net2 GND viq
+C5 vg2 GND 100f m=1
+Vi2 vi3 GND sin({viq} vamp fin 0)
+XM4 vo3 vg3 vi3 vi3 sg13_lv_nmos w=w l=0.13u ng=ng m=1
+C6 vo3 GND cl m=1
+C7 vg3 vi3 cb ic=vdd m=1
+C8 vg3 GND 100f m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 viq=0.3 vamp=0.2
+.param cl=5p cb=1p w=100u ng=20
+.param ndft=53 npad=5 bin=3
+.param fclk=500e6 per=1/fclk fin=fclk*bin/ndft
+
+.csparam per = per
+.csparam t1 = 4*per
+.csparam tstart = 0
+.csparam tstop = per*(ndft-1+npad)
+.option method=trap reltol=1e-6
+
+.control
+    tran 1n $&t1 uic
+    write tb_track_nmos.raw
+    option numdgt=12
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=26 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran 10p $&tstop $&tstart uic
+      let lin-tstep = per
+      linearize
+      wrdata tb_track_nmos.txt v(vi1) v(vo1) v(vo2) v(vo3)
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
+    op
+    show
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
