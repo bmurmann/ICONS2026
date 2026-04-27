@@ -1,0 +1,75 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_boot.sch
+**.subckt tb_boot
+Cm1 vtop vbot {cb} m=1
+S1 vbot GND p2 GND SW1
+S2 vdd vtop p2 GND SW1
+S3 vg vtop p1 GND SW1
+S4 vi vbot p1 GND SW1
+S5 GND vg p2 GND SW1
+Cp4 vg GND cp m=1
+C6 vo GND cl m=1
+Vi2 net1 GND sin({viq} vamp fin 0)
+Cp1 p2 vss 10f m=1
+Cp2 p1 vss 10f m=1
+x1 net3 VDD VSS p2 sg13g2_inv_2
+x2 net2 VDD VSS p1 sg13g2_inv_2
+x3 trackb net2 VDD VSS net3 sg13g2_nand2_2
+x4 net3 track VDD VSS net2 sg13g2_nand2_2
+x5 track VDD VSS trackb sg13g2_inv_2
+Vtrk track GND pulse(0 vdd 0 trf trf {per/2} per 0)
+Vsup vdd GND vdd
+Vsup1 vss GND 0
+R1 net1 vi rs m=1
+XM1 vi vg vo GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
+.param vdd=1.2 viq=0.3 vamp=0.2
+.param cl=1p cb=1p cp=100f w=100u ng=20
+.param ndft=31 npad=5 bin=5 fclk=500e6
+.param per=1/fclk fin=fclk*bin/ndft trf=100p
+.param vh=0 rsw=10 roff=1e9 rs=10
+
+.csparam per = per
+.csparam tstop1 = 4*per
+.csparam tstop2 = per*(ndft+npad)
+.option method=gear reltol=1e-6
+
+.control
+    tran 1n $&tstop1
+    write tb_boot.raw
+    option numdgt=12
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=15 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran 10p $&tstop2 0
+      let lin-tstep = per
+      let lin-tstart = 1.25n
+      linearize
+      wrdata tb_boot_track.txt v(vi) v(vo)
+      tran 10p $&tstop2 0
+      let lin-tstep = per
+      let lin-tstart = 1.8n
+      linearize
+      wrdata tb_boot.txt v(vi) v(vo)
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
+.endc
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+**** begin user architecture code
+.MODEL SW1 SW
++ VT=0.6 VH=vh
++ RON=1 ROFF=roff
+**** end user architecture code
+.end
