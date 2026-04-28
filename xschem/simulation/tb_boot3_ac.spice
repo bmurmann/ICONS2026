@@ -1,0 +1,47 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_boot3_ac.sch
+**.subckt tb_boot3_ac
+Vsup vdd GND vdd
+Cm1 vtop vbot cb ic=vdd m=1
+XM1 net1 vg net2 GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+XM8 vg vdd net3 GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM4 net3 GND GND GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM6 vbot GND GND GND sg13_lv_nmos w=w6 l=0.13u ng=ng6 m=1
+XM5 vtop vg vdd vtop sg13_lv_pmos w=w5 l=0.13u ng=ng5 m=1
+Cw6 vtop GND cw6 m=1
+Cw1 net2 GND cl m=1
+Vsup1 net1 GND dc vcm ac 1
+rbot net1 vbot 10 m=1
+rtop vg vtop 10 m=1
+Vsup2 net4 vbot vdd
+L4 vtop net4 1meg m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 vcm=0.6
+.param cl=1.3p cb=500f w=29u ng=4
+.param w4=15u ng4=3 w5=6u ng5=1 w6=4u ng6=1 cw6=3.4f
+
+.control
+    op
+    print allv
+    ac dec 1000 1e5 250e6
+    alter rbot=1k
+    alter rtop=1k
+    ac dec 100 1e5 250e6
+    alter rbot=2k
+    alter rtop=2k
+    ac dec 100 1e5 250e6
+
+    set color0=white    ; Set background to white
+    set color1=black    ; Set grid and text to black
+    set xbrushwidth=5
+    plot ac1.v(vg) ac2.v(vg) ac3.v(vg) linear
+.endc
+.end
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
