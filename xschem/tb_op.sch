@@ -52,7 +52,7 @@ spiceprefix=X
 }
 C {gnd.sym} 280 -160 0 0 {name=l1 lab=GND}
 C {gnd.sym} 200 -280 0 0 {name=l2 lab=GND}
-C {vsource.sym} 520 -190 0 0 {name=V3 value=0.6 savecurrent=false}
+C {vsource.sym} 520 -190 0 0 {name=V3 value=0.7 savecurrent=false}
 C {vsource.sym} 520 -400 0 0 {name=V4 value=1.2 savecurrent=false}
 C {sg13g2_pr/sg13_lv_nmos.sym} 440 -360 1 0 {name=M2
 l=0.13u

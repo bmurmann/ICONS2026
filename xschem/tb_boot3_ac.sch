@@ -42,8 +42,8 @@ only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
 .param vdd=1.2 vcm=0.6
-.param cl=1.3p cb=500f w=29u ng=4
-.param w4=15u ng4=3 w5=6u ng5=1 w6=4u ng6=1 cw6=3.4f
+.param cl=1.3p cb=400f w=26u ng=4
+.param w4=13u ng4=3 w5=5u w6=3u cw5=2f
 
 .control
     op
@@ -103,7 +103,7 @@ C {devices/gnd.sym} 1110 -680 0 1 {name=l10 lab=GND}
 C {sg13g2_pr/sg13_lv_nmos.sym} 590 -480 0 0 {name=M6
 l=0.13u
 w=w6
-ng=ng6
+ng=1
 m=1
 model=sg13_lv_nmos
 spiceprefix=X
@@ -113,16 +113,16 @@ C {devices/lab_wire.sym} 610 -560 0 0 {name=p29 sig_type=std_logic lab=vbot}
 C {sg13g2_pr/sg13_lv_pmos.sym} 630 -810 0 1 {name=M5
 l=0.13u
 w=w5
-ng=ng5
+ng=1
 m=1
 model=sg13_lv_pmos
 spiceprefix=X
 }
 C {devices/lab_wire.sym} 950 -640 0 0 {name=p16 sig_type=std_logic lab=vg}
 C {devices/gnd.sym} 950 -470 0 1 {name=l15 lab=GND}
-C {devices/capa.sym} 520 -710 0 1 {name=Cw6
+C {devices/capa.sym} 520 -710 0 1 {name=Cw5
 m=1
-value=cw6
+value=cw5
 footprint=1206
 device="ceramic capacitor"}
 C {devices/gnd.sym} 520 -680 0 0 {name=l1 lab=GND}

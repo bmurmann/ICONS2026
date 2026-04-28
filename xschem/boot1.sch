@@ -27,11 +27,11 @@ N 620 -310 620 -220 {lab=vo}
 N 620 -220 700 -220 {lab=vo}
 N 410 -560 410 -500 {lab=p1}
 N 380 -560 410 -560 {lab=p1}
-N 180 -560 250 -560 {lab=xxx}
-N 250 -560 250 -530 {lab=xxx}
+N 180 -560 250 -560 {lab=vdd}
+N 250 -560 250 -530 {lab=vdd}
 C {devices/capa.sym} 250 -370 0 0 {name=Cm1
 m=1
-value=\{cb\}
+value=cb
 footprint=1206
 device="ceramic capacitor"}
 C {switch_ngspice.sym} 250 -260 0 0 {name=S1 model=SW1

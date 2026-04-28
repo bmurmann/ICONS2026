@@ -42,7 +42,7 @@ x7 vdd p1 p2 vcn vin boot4
 .param cl=1.3p cb=500f cp=1f w=29u ng=4
 .param w4=15u ng4=3 w5=6u ng5=1 w6=4u ng6=1 cw6=3.4f
 .param wa=2u wb=2u wc=5u w2=6u w3=6u cw2=1f
-.param ndft=31 npad=5 bin=5 fclk=500e6 runs=3
+.param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
 .param vh=0 rsw=20 roff=1e9 rs=10
 
