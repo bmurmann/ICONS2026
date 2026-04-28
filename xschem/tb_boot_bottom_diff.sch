@@ -11,8 +11,8 @@ ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=-4e-10
-x2=7.6e-09
+x1=3.298239e-09
+x2=3.6776376e-09
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -26,31 +26,27 @@ rawfile=./simulation/tb_boot_bottom_diff.raw
 autoload=1
 hilight_wave=1
 y2=1.7340031
-color="4 5 6 7 8 7"
-node="track
-p1
-p2
-vg
-vop
-x7.vg"}
-N 130 -800 150 -800 {lab=#net1}
-N 130 -800 130 -780 {lab=#net1}
-N 130 -780 310 -740 {lab=#net1}
-N 310 -740 310 -720 {lab=#net1}
-N 270 -720 310 -720 {lab=#net1}
-N 130 -740 150 -740 {lab=#net2}
-N 130 -760 130 -740 {lab=#net2}
-N 130 -760 310 -780 {lab=#net2}
-N 310 -820 310 -780 {lab=#net2}
-N 270 -820 310 -820 {lab=#net2}
-N 310 -820 370 -820 {lab=#net2}
-N 310 -720 370 -720 {lab=#net1}
-N 450 -820 520 -820 {lab=p2}
-N 450 -720 520 -720 {lab=p1}
-N 50 -840 150 -840 {lab=trackb}
-N 50 -840 50 -820 {lab=trackb}
-N 50 -700 150 -700 {lab=track}
-N 50 -740 50 -700 {lab=track}
+color="4 4"
+node="x7.vg
+p2"}
+N 0 -790 20 -790 {lab=#net1}
+N 0 -790 0 -770 {lab=#net1}
+N 0 -770 180 -730 {lab=#net1}
+N 180 -730 180 -710 {lab=#net1}
+N 140 -710 180 -710 {lab=#net1}
+N 0 -730 20 -730 {lab=#net2}
+N 0 -750 0 -730 {lab=#net2}
+N 0 -750 180 -770 {lab=#net2}
+N 180 -810 180 -770 {lab=#net2}
+N 140 -810 180 -810 {lab=#net2}
+N 180 -810 240 -810 {lab=#net2}
+N 180 -710 240 -710 {lab=#net1}
+N 320 -810 390 -810 {lab=p2}
+N 320 -710 390 -710 {lab=p1}
+N -80 -830 20 -830 {lab=trackb}
+N -80 -830 -80 -810 {lab=trackb}
+N -80 -690 20 -690 {lab=track}
+N -80 -730 -80 -690 {lab=track}
 N 1120 -440 1150 -440 {lab=track}
 N 1190 -500 1190 -470 {lab=votap}
 N 1595 -480 1625 -480 {lab=p1}
@@ -62,8 +58,8 @@ N 1430 -570 1430 -510 {lab=vop}
 N 1515 -570 1515 -510 {lab=vop}
 N 1515 -570 1665 -570 {lab=vop}
 N 1665 -570 1665 -510 {lab=vop}
-N 50 -700 50 -650 {lab=track}
-N 50 -590 50 -565 {lab=#net3}
+N -80 -690 -80 -640 {lab=track}
+N -80 -580 -80 -555 {lab=#net3}
 N 400 -350 440 -350 {
 lab=vsd}
 N 220 -390 220 -240 {
@@ -138,16 +134,16 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 vcm=0.6 vamp=0.6
-.param cl=1.3p cb=1.3p cp=65f w=24u ng=2
+.param cl=1.3p cb=500f cp=1f w=29u ng=4
+.parak w4=15u, ng4=3 
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
-.param vh=0 rsw=10 roff=1e9 rs=10
+.param vh=0 rsw=20 roff=1e9 rs=10
 
 .csparam per=per runs=runs
 .csparam tstop1 = 4*per
 .csparam tstop2 = per*(ndft+npad)
-*.option method=gear reltol=1e-6 chgtol=1e-16
-.option chgtol=1e-16 reltol=1e-5
+.option method=trap chgtol=1e-16 reltol=1e-4
 
 .control
     tran 1n $&tstop1
@@ -176,35 +172,35 @@ C {launcher.sym} 1250 -720 0 0 {name=h5
 descr="load waves" 
 tclcommand="xschem raw_read $netlist_dir/tb_boot_bottom.raw tran"
 }
-C {devices/lab_wire.sym} 100 -700 0 0 {name=p30 sig_type=std_logic lab=track}
-C {devices/lab_wire.sym} 100 -840 0 0 {name=p31 sig_type=std_logic lab=trackb}
-C {devices/lab_wire.sym} 450 -720 2 0 {name=p32 sig_type=std_logic lab=p1}
-C {devices/lab_wire.sym} 450 -820 2 0 {name=p33 sig_type=std_logic lab=p2}
-C {devices/capa.sym} 550 -820 3 0 {name=Cp1
+C {devices/lab_wire.sym} -30 -690 0 0 {name=p30 sig_type=std_logic lab=track}
+C {devices/lab_wire.sym} -30 -830 0 0 {name=p31 sig_type=std_logic lab=trackb}
+C {devices/lab_wire.sym} 320 -710 2 0 {name=p32 sig_type=std_logic lab=p1}
+C {devices/lab_wire.sym} 320 -810 2 0 {name=p33 sig_type=std_logic lab=p2}
+C {devices/capa.sym} 420 -810 3 0 {name=Cp1
+m=1
+value=0.1f
+footprint=1206
+device="ceramic capacitor"}
+C {devices/capa.sym} 420 -710 3 0 {name=Cp2
 m=1
 value=10f
 footprint=1206
 device="ceramic capacitor"}
-C {devices/capa.sym} 550 -720 3 0 {name=Cp2
-m=1
-value=10f
-footprint=1206
-device="ceramic capacitor"}
-C {devices/lab_wire.sym} 580 -820 2 0 {name=p36 sig_type=std_logic lab=vss}
-C {devices/lab_wire.sym} 580 -720 2 0 {name=p37 sig_type=std_logic lab=vss}
-C {sg13g2_stdcells/sg13g2_inv_2.sym} 410 -820 0 0 {name=x1 VDD=VDD VSS=VSS prefix=sg13g2_ }
-C {sg13g2_stdcells/sg13g2_inv_2.sym} 410 -720 0 0 {name=x2 VDD=VDD VSS=VSS prefix=sg13g2_ }
-C {sg13g2_stdcells/sg13g2_nand2_2.sym} 210 -820 0 0 {name=x3 VDD=VDD VSS=VSS prefix=sg13g2_ }
-C {sg13g2_stdcells/sg13g2_nand2_2.sym} 210 -720 0 0 {name=x4 VDD=VDD VSS=VSS prefix=sg13g2_ }
-C {sg13g2_stdcells/sg13g2_inv_2.sym} 50 -780 3 0 {name=x5 VDD=VDD VSS=VSS prefix=sg13g2_ }
-C {vsource.sym} 50 -535 0 0 {name=Vtrk value="pulse(0 vdd 0 trf trf \{per/2\} per 0)" savecurrent=false}
-C {devices/gnd.sym} 50 -505 0 0 {name=l10 lab=GND}
-C {devices/vsource.sym} 690 -770 0 0 {name=Vsup value=vdd savecurrent=false}
-C {devices/lab_wire.sym} 690 -800 0 0 {name=p5 sig_type=std_logic lab=vdd}
-C {devices/gnd.sym} 690 -740 0 0 {name=l11 lab=GND}
-C {devices/vsource.sym} 790 -770 0 0 {name=Vsup1 value=0 savecurrent=false}
-C {devices/lab_wire.sym} 790 -800 0 0 {name=p3 sig_type=std_logic lab=vss}
-C {devices/gnd.sym} 790 -740 0 0 {name=l14 lab=GND}
+C {devices/lab_wire.sym} 450 -810 2 0 {name=p36 sig_type=std_logic lab=vss}
+C {devices/lab_wire.sym} 450 -710 2 0 {name=p37 sig_type=std_logic lab=vss}
+C {sg13g2_stdcells/sg13g2_inv_2.sym} 280 -810 0 0 {name=x1 VDD=VDD VSS=VSS prefix=sg13g2_ }
+C {sg13g2_stdcells/sg13g2_inv_2.sym} 280 -710 0 0 {name=x2 VDD=VDD VSS=VSS prefix=sg13g2_ }
+C {sg13g2_stdcells/sg13g2_nand2_2.sym} 80 -810 0 0 {name=x3 VDD=VDD VSS=VSS prefix=sg13g2_ }
+C {sg13g2_stdcells/sg13g2_nand2_2.sym} 80 -710 0 0 {name=x4 VDD=VDD VSS=VSS prefix=sg13g2_ }
+C {sg13g2_stdcells/sg13g2_inv_2.sym} -80 -770 3 0 {name=x5 VDD=VDD VSS=VSS prefix=sg13g2_ }
+C {vsource.sym} -80 -525 0 0 {name=Vtrk value="pulse(0 vdd 0 trf trf \{per/2\} per 0)" savecurrent=false}
+C {devices/gnd.sym} -80 -495 0 0 {name=l10 lab=GND}
+C {devices/vsource.sym} 560 -760 0 0 {name=Vsup value=vdd savecurrent=false}
+C {devices/lab_wire.sym} 560 -790 0 0 {name=p5 sig_type=std_logic lab=vdd}
+C {devices/gnd.sym} 560 -730 0 0 {name=l11 lab=GND}
+C {devices/vsource.sym} 660 -760 0 0 {name=Vsup1 value=0 savecurrent=false}
+C {devices/lab_wire.sym} 660 -790 0 0 {name=p3 sig_type=std_logic lab=vss}
+C {devices/gnd.sym} 660 -730 0 0 {name=l14 lab=GND}
 C {devices/capa.sym} 1100 -500 3 0 {name=Cp
 m=1
 value=cl
@@ -248,12 +244,12 @@ footprint=1206
 device="ceramic capacitor"}
 C {devices/gnd.sym} 1295 -410 0 0 {name=l23 lab=GND}
 C {devices/lab_wire.sym} 1330 -500 0 1 {name=p8 sig_type=std_logic lab=votap}
-C {res.sym} 50 -620 0 0 {name=R2
+C {res.sym} -80 -610 0 0 {name=R2
 value=1k
 footprint=1206
 device=resistor
 m=1}
-C {boot1.sym} 800 -500 0 0 {name=x6}
+C {boot2.sym} 800 -500 0 0 {name=x6}
 C {devices/vcvs.sym} 320 -330 0 1 {name=E1 value=0.5}
 C {devices/vcvs.sym} 480 -330 0 0 {name=E2 value=-0.5}
 C {devices/vsource.sym} 400 -210 0 0 {name=Vcm value=vcm savecurrent=false}
@@ -320,7 +316,7 @@ footprint=1206
 device="ceramic capacitor"}
 C {devices/gnd.sym} 1295 -135 0 0 {name=l18 lab=GND}
 C {devices/lab_wire.sym} 1330 -225 0 1 {name=p19 sig_type=std_logic lab=votan}
-C {boot1.sym} 800 -225 0 0 {name=x7}
+C {boot2.sym} 800 -225 0 0 {name=x7}
 C {devices/lab_wire.sym} 830 -585 0 1 {name=p20 sig_type=std_logic lab=p2}
 C {devices/lab_wire.sym} 800 -585 0 1 {name=p21 sig_type=std_logic lab=p1}
 C {devices/lab_wire.sym} 770 -585 0 1 {name=p22 sig_type=std_logic lab=vdd}

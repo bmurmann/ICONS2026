@@ -1,0 +1,109 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_boot_bottom_diff_4.sch
+**.subckt tb_boot_bottom_diff_4
+Cp1 p2 vss 0.1f m=1
+Cp2 p1 vss 10f m=1
+x1 net2 VDD VSS p2 sg13g2_inv_8
+x2 net1 VDD VSS p1 sg13g2_inv_8
+x3 trackb net1 VDD VSS net2 sg13g2_nand2_2
+x4 net2 track VDD VSS net1 sg13g2_nand2_2
+x5 track VDD VSS trackb sg13g2_inv_2
+Vtrk net3 GND pulse(0 vdd 0 trf trf {per/2} per 0)
+Vsup vdd GND vdd
+Vsup1 vss GND 0
+Cp vcp votap cl m=1
+G1 vop GND votap GND 100e-3
+S7 vop vcp p2 GND SW1
+Cp3 vop GND cl m=1
+S8 votap GND track GND SW1
+S10 vop GND p1 GND SW1
+Cp5 votap GND 100f m=1
+R2 track net3 1k m=1
+x6 vdd p1 p2 vcp vip boot4
+E1 vsp vsc vsd GND 0.5
+E2 vsn vsc vsd GND -0.5
+Vcm vsc GND vcm
+Vdm vsd GND sin(0 vamp fin 0)
+Rp vsp vip rs m=1
+Rm vin vsn rs m=1
+Cp4 vcn votan cl m=1
+G2 von GND votan GND 100e-3
+S1 von vcn p2 GND SW1
+Cp6 von GND cl m=1
+S2 votan GND track GND SW1
+S3 von GND p1 GND SW1
+Cp7 votan GND 100f m=1
+x7 vdd p1 p2 vcn vin boot4
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
+.param vdd=1.2 vcm=0.6 vamp=0.6
+.param cl=1.3p cb=500f cp=1f w=29u ng=4
+.param w4=15u ng4=3 w5=6u ng5=1 w6=4u ng6=1 cw6=3.4f
+.param wa=2u wb=2u wc=5u w2=6u w3=6u cw2=1f
+.param ndft=31 npad=5 bin=5 fclk=500e6 runs=3
+.param per=1/fclk fin=fclk*bin/ndft trf=100p
+.param vh=0 rsw=20 roff=1e9 rs=10
+
+.csparam per=per runs=runs
+.csparam tstop1 = 4*per
+.csparam tstop2 = per*(ndft+npad)
+.option method=trap chgtol=1e-16 reltol=1e-5
+
+.control
+    tran 1n $&tstop1
+    write tb_boot_bottom_diff.raw
+    option numdgt=9
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=$&runs step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran 10p $&tstop2 0
+      let lin-tstep = per
+      let lin-tstart = 1.9n
+      linearize
+      wrdata tb_boot_bottom_diff.txt v(vip) v(vop) v(von)
+      destroy all
+      set appendwrite
+      unset wr_vecnames
+    end
+    unset appendwrite
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  boot4.sym # of pins=5
+** sym_path: /foss/designs/ICONS2026/xschem/boot4.sym
+** sch_path: /foss/designs/ICONS2026/xschem/boot4.sch
+.subckt boot4 vdd p1 p2 vo vi
+*.ipin vi
+*.opin vo
+*.ipin p2
+*.iopin vdd
+*.ipin p1
+Cm1 vtop vbot cb m=1
+XM1 vi vg vo GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+XM8 vg vdd net1 GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM4 net1 p2 GND GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM6 vbot p2 GND GND sg13_lv_nmos w=w6 l=0.13u ng=ng6 m=1
+XM5 vtop vg vdd vtop sg13_lv_pmos w=w5 l=0.13u ng=ng5 m=1
+Cw6 vtop GND {cw6+cw2} m=1
+XM3 vbot vg vi GND sg13_lv_nmos w=w3 l=0.13u ng=1 m=1
+XM2 vtop vg2 vg vtop sg13_lv_pmos w=w2 l=0.13u ng=ng5 m=1
+XMb vg2 p1 vdd vdd sg13_lv_pmos w=wb l=0.13u ng=1 m=1
+XMa vg2 p1 vbot GND sg13_lv_nmos w=wa l=0.13u ng=1 m=1
+XMc vg2 vg vbot GND sg13_lv_nmos w=wc l=0.13u ng=1 m=1
+.ends
+
+.GLOBAL GND
+**** begin user architecture code
+.MODEL SW1 SW
++ VT=0.6 VH=vh
++ RON=rsw ROFF=roff
+**** end user architecture code
+.end

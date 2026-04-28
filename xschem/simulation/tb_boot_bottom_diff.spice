@@ -1,6 +1,6 @@
 ** sch_path: /foss/designs/ICONS2026/xschem/tb_boot_bottom_diff.sch
 **.subckt tb_boot_bottom_diff
-Cp1 p2 vss 10f m=1
+Cp1 p2 vss 0.1f m=1
 Cp2 p1 vss 10f m=1
 x1 net2 VDD VSS p2 sg13g2_inv_2
 x2 net1 VDD VSS p1 sg13g2_inv_2
@@ -18,7 +18,7 @@ S8 votap GND track GND SW1
 S10 vop GND p1 GND SW1
 Cp5 votap GND 100f m=1
 R2 track net3 1k m=1
-x6 vdd p1 p2 vcp vip boot1
+x6 vdd p1 p2 vcp vip boot2
 E1 vsp vsc vsd GND 0.5
 E2 vsn vsc vsd GND -0.5
 Vcm vsc GND vcm
@@ -32,23 +32,23 @@ Cp6 von GND cl m=1
 S2 votan GND track GND SW1
 S3 von GND p1 GND SW1
 Cp7 votan GND 100f m=1
-x7 vdd p1 p2 vcn vin boot1
+x7 vdd p1 p2 vcn vin boot2
 **** begin user architecture code
 
 
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 vcm=0.6 vamp=0.6
-.param cl=1.3p cb=1.3p cp=65f w=24u ng=2
+.param cl=1.3p cb=500f cp=1f w=29u ng=4
+.parak w4=15u, ng4=3
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
-.param vh=0 rsw=10 roff=1e9 rs=10
+.param vh=0 rsw=20 roff=1e9 rs=10
 
 .csparam per=per runs=runs
 .csparam tstop1 = 4*per
 .csparam tstop2 = per*(ndft+npad)
-*.option method=gear reltol=1e-6 chgtol=1e-16
-.option chgtol=1e-16 reltol=1e-5
+.option method=trap chgtol=1e-16 reltol=1e-4
 
 .control
     tran 1n $&tstop1
@@ -76,10 +76,10 @@ x7 vdd p1 p2 vcn vin boot1
 **** end user architecture code
 **.ends
 
-* expanding   symbol:  boot1.sym # of pins=5
-** sym_path: /foss/designs/ICONS2026/xschem/boot1.sym
-** sch_path: /foss/designs/ICONS2026/xschem/boot1.sch
-.subckt boot1 vdd p1 p2 vo vi
+* expanding   symbol:  boot2.sym # of pins=5
+** sym_path: /foss/designs/ICONS2026/xschem/boot2.sym
+** sch_path: /foss/designs/ICONS2026/xschem/boot2.sch
+.subckt boot2 vdd p1 p2 vo vi
 *.ipin vi
 *.opin vo
 *.ipin p2
@@ -90,15 +90,16 @@ S1 vbot GND p2 GND SW1
 S2 vdd vtop p2 GND SW1
 S3 vg vtop p1 GND SW1
 S4 vi vbot p1 GND SW1
-S5 GND vg p2 GND SW1
-Cp4 vg GND cp m=1
 XM1 vi vg vo GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+XM8 vg vdd net1 GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM4 net1 p2 GND GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+Cm2 vg GND 15f m=1
 .ends
 
 .GLOBAL GND
 **** begin user architecture code
 .MODEL SW1 SW
 + VT=0.6 VH=vh
-+ RON=1 ROFF=roff
++ RON=rsw ROFF=roff
 **** end user architecture code
 .end

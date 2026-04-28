@@ -1,0 +1,93 @@
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/tb_th_boot.sch
+**.subckt tb_th_boot
+E1 vsp vsc vsd GND 0.5
+E2 vsm vsc vsd GND -0.5
+Vcm vsc GND vcm
+Vsup vdd GND vdd
+Vdm vsd GND sin(0 vamp fin 0)
+x1 track vip vop vom vim GND vdd th_boot
+Rp vsp vip rs
+Rm vim vsm rs
+Vtrk track GND dc vdd pulse(0 vdd 0 trf trf {per/2} per 0)
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
+.param vdd=1.2 vcm=0.3 vamp=0.4 vh=0 rsw=20 roff=1e8
+.param rs=30 cl=5p cb=5p w=50u l=0.13u nf=10
+.param nfft=32 fclk=500Meg per=1/fclk trf=100p
+.param bin=1 fin=fclk*bin/nfft
+
+.csparam per = per
+.csparam t1 = 4*per
+.csparam tstart = 1.5n
+.csparam tstop = {1.5n + per*(nfft+5)}
+.option method=trap reltol=1e-5
+
+.control
+    tran 1n $&t1
+    write tb_th_boot.raw
+
+    option interp
+    set wr_singlescale
+    set wr_vecnames
+    compose bin_vec start=1 stop=15 step=1
+    foreach i $&bin_vec
+      alterparam bin=$i
+      reset
+      tran $&per $&tstop $&tstart
+      wrdata tb_th_boot.txt v(vop)
+      set appendwrite
+      unset set wr_vecnames
+    end
+    unset appendwrite
+    op
+    show n.x1.xmdum.nsg13_lv_nmos
+.endc
+
+
+**** end user architecture code
+**.ends
+
+* expanding   symbol:  th_boot.sym # of pins=7
+** sym_path: /foss/designs/ICONS2026/th_nmos/xschem/th_boot.sym
+** sch_path: /foss/designs/ICONS2026/th_nmos/xschem/th_boot.sch
+.subckt th_boot track vip vop vom vim vss vdd
+*.ipin vip
+*.ipin vim
+*.opin vom
+*.ipin track
+*.iopin vss
+*.iopin vdd
+*.opin vop
+Cm vom vss {cl}
+Cm1 vtop vbot {cb}
+S1 vbot vss ph vss SW1
+S2 vdd vtop ph vss SW1
+S3 vgp vtop pt vss SW1
+S4 vip vbot pt vss SW1
+S5 vss vgp ph vss SW1
+V1 net3 vss vcm
+V2 net4 net3 vdd
+Cp1 ph vss 10f
+Cp2 pt vss 10f
+Cp vop vss {cl}
+x6 ph net2 VDD VSS sg13g2_inv_2
+x4 pt net1 VDD VSS sg13g2_inv_2
+x1 trackb track VDD VSS sg13g2_inv_2
+x5 net2 trackb net1 VDD VSS sg13g2_nand2_2
+x2 net1 net2 track VDD VSS sg13g2_nand2_2
+Xmdum net3 net4 net3 vss sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+Cp4 vgp vss 1f
+R2 vom vim 10
+Xmdum1 vip vgp vop vss sg13_lv_nmos w={w/nf} l={l} ng=1 m=nf
+.ends
+
+.GLOBAL GND
+**** begin user architecture code
+.MODEL SW1 SW
++ VT=0.6 VH=vh
++ RON=1 ROFF=roff
+**** end user architecture code
+.end
