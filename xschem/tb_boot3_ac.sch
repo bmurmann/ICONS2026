@@ -42,8 +42,8 @@ only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
 .param vdd=1.2 vcm=0.6
-.param cl=1.3p cb=400f w=26u ng=4
-.param w4=13u ng4=3 w5=5u w6=3u cw5=2f
+.param cl=1.3p cb=400f w=32u ng=6
+.param w4=16u ng4=3 w5=5u w6=3u cw5=2f
 
 .control
     op

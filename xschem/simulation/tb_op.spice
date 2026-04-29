@@ -1,9 +1,9 @@
 ** sch_path: /foss/designs/ICONS2026/xschem/tb_op.sch
 **.subckt tb_op
-V1 net1 GND 0.6
+V1 net1 GND 0.2
 V2 net2 net1 1.2
 XM1 net1 net2 net1 GND sg13_lv_nmos w=100u l=0.13u ng=10 m=1
-V3 net3 GND 0.7
+V3 net3 GND 1
 V4 net4 net3 1.2
 XM2 net3 net4 net3 GND sg13_lv_nmos w=100u l=0.13u ng=10 m=1
 XM3 GND net5 GND GND sg13_lv_nmos w=100u l=0.13u ng=10 m=1

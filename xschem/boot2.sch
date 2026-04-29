@@ -7,10 +7,8 @@ E {}
 N 490 -310 530 -310 {lab=vi}
 N 180 -260 210 -260 {lab=p2}
 N 180 -560 210 -560 {lab=p2}
-N 560 -520 610 -520 {lab=vg}
 N 490 -310 490 -220 {lab=vi}
 N 250 -310 250 -270 {lab=vbot}
-N 440 -520 560 -520 {lab=vg}
 N 440 -310 490 -310 {lab=vi}
 N 250 -520 380 -520 {lab=vtop}
 N 250 -530 250 -520 {lab=vtop}
@@ -30,9 +28,11 @@ N 250 -520 250 -400 {lab=vtop}
 N 670 -520 690 -520 {lab=#net1}
 N 640 -520 640 -460 {lab=GND}
 N 720 -520 720 -460 {lab=GND}
+N 440 -520 560 -520 {lab=vg}
+N 560 -520 610 -520 {lab=vg}
 C {devices/capa.sym} 250 -370 0 0 {name=Cm1
 m=1
-value=\{cb\}
+value=cb
 footprint=1206
 device="ceramic capacitor"}
 C {switch_ngspice.sym} 250 -260 0 0 {name=S1 model=SW1
@@ -97,9 +97,3 @@ spiceprefix=X
 }
 C {devices/gnd.sym} 640 -460 0 1 {name=l5 lab=GND}
 C {devices/gnd.sym} 720 -460 0 1 {name=l10 lab=GND}
-C {devices/capa.sym} 590 -380 3 0 {name=Cm2
-m=1
-value=15f
-footprint=1206
-device="ceramic capacitor"}
-C {devices/gnd.sym} 620 -380 3 1 {name=l9 lab=GND}

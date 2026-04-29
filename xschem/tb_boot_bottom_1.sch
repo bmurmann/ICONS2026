@@ -5,14 +5,14 @@ V {}
 S {}
 E {}
 B 2 130 -1180 910 -630 {flags=graph
-y1=-0.10679693
+y1=-0.9
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=-9.3585001e-09
-x2=-1.3585001e-09
+x1=1.0117297e-11
+x2=1.6541781e-09
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -25,13 +25,12 @@ sim_type=tran
 rawfile=./simulation/tb_boot_bottom_1.raw
 autoload=1
 hilight_wave=1
-y2=1.7340031
-color="4 5 6 7 8"
-node="track
-p1
-p2
-vg
-vo"}
+y2=2
+color="4 5 6"
+node="vi
+x6.vg
+\\"vgs; x6.vg vi -\\""
+hcursor1_y=1.1475832}
 N 590 -320 590 -300 {lab=#net1}
 N 280 -500 300 -500 {lab=#net2}
 N 420 -420 460 -420 {lab=#net2}
@@ -74,22 +73,22 @@ N 30 -400 30 -380 {lab=#net4}
 N 280 -480 460 -460 {lab=#net2}
 N 460 -460 460 -420 {lab=#net2}
 N 280 -500 280 -480 {lab=#net2}
-C {devices/code_shown.sym} 940 -1150 0 0 {name=COMMANDS
+C {devices/code_shown.sym} 930 -1150 0 0 {name=COMMANDS
 simulator=ngspice
 only_toplevel=false
 value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=400f cp=20f w=26u ng=5
-.param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
+.param cl=1.3p cb=1p cp=0 w=32u ng=5
+.param ndft=31 npad=5 bin=15 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
 .param vh=0 rsw=10 roff=1e9 rs=10
 
 .csparam per=per runs=runs
 .csparam tstop1 = 4*per
 .csparam tstop2 = per*(ndft+npad)
-.option method=gear reltol=1e-6 chgtol=1e-16
+.option method=trap reltol=1e-5 chgtol=1e-16
 
 .control
     tran 1n $&tstop1

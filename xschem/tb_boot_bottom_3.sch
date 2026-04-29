@@ -62,9 +62,8 @@ N 1260 -420 1430 -420 {lab=vo}
 N 1530 -420 1530 -330 {lab=vo}
 N 1430 -420 1530 -420 {lab=vo}
 N 1690 -420 1690 -330 {lab=vo}
-N 790 -410 790 -370 {lab=vdd}
-N 820 -410 820 -370 {lab=p1}
-N 850 -390 850 -370 {lab=p2}
+N 800 -410 800 -370 {lab=vdd}
+N 830 -410 830 -370 {lab=p1}
 N 930 -320 1010 -320 {lab=vc}
 N 690 -320 740 -320 {lab=vi}
 N 80 -400 120 -400 {lab=track}
@@ -73,9 +72,7 @@ N -50 -400 -50 -380 {lab=#net4}
 N 200 -480 380 -460 {lab=#net2}
 N 380 -460 380 -420 {lab=#net2}
 N 200 -500 200 -480 {lab=#net2}
-N 880 -390 880 -370 {lab=p2}
-N 850 -390 880 -390 {lab=p2}
-N 850 -410 850 -390 {lab=p2}
+N 860 -410 860 -370 {lab=p2}
 C {devices/code_shown.sym} 940 -1150 0 0 {name=COMMANDS
 simulator=ngspice
 only_toplevel=false
@@ -83,8 +80,8 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=400f w=26u ng=5
-.param w4=13u ng4=3 w5=5u cw5=2f w6=3u
+.param cl=1.3p cb=600f w=32u ng=6
+.param w4=16u ng4=3 w5=5u cw5=2f w6=3u
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=50p
 .param vh=0 rsw=10 roff=1e9 rs=10
@@ -190,9 +187,9 @@ device="ceramic capacitor"}
 C {devices/gnd.sym} 1310 -200 0 0 {name=l23 lab=GND}
 C {devices/lab_wire.sym} 1330 -320 0 1 {name=p8 sig_type=std_logic lab=votap}
 C {boot3.sym} 830 -320 0 0 {name=x6}
-C {devices/lab_wire.sym} 790 -410 0 0 {name=p9 sig_type=std_logic lab=vdd}
-C {devices/lab_wire.sym} 820 -410 0 0 {name=p10 sig_type=std_logic lab=p1}
-C {devices/lab_wire.sym} 850 -410 0 0 {name=p11 sig_type=std_logic lab=p2}
+C {devices/lab_wire.sym} 800 -410 0 0 {name=p9 sig_type=std_logic lab=vdd}
+C {devices/lab_wire.sym} 830 -410 0 0 {name=p10 sig_type=std_logic lab=p1}
+C {devices/lab_wire.sym} 860 -410 0 0 {name=p11 sig_type=std_logic lab=p2}
 C {res.sym} 50 -400 1 0 {name=R2
 value=1k
 footprint=1206

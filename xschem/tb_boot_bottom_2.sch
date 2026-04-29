@@ -5,7 +5,7 @@ V {}
 S {}
 E {}
 B 2 130 -1180 910 -630 {flags=graph
-y1=-0.10679693
+y1=-0.089
 ypos1=0
 ypos2=2
 divy=5
@@ -25,13 +25,11 @@ sim_type=tran
 rawfile=./simulation/tb_boot_bottom_2.raw
 autoload=1
 hilight_wave=1
-y2=1.7340031
-color="4 5 6 7 8"
-node="track
-p1
-p2
-vg
-vo"}
+y2=2
+color="4 5 6"
+node="vi
+x6.vg
+\\"vgs; x6.vg vi -\\""}
 N 590 -320 590 -300 {lab=#net1}
 N 280 -500 300 -500 {lab=#net2}
 N 420 -420 460 -420 {lab=#net2}
@@ -81,8 +79,8 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=1p cp=50f w=26u ng=5
-.param w4=13u ng4=3
+.param cl=1.3p cb=600f w=32u ng=5
+.param w4=16u ng4=3
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
 .param vh=0 rsw=10 roff=1e9 rs=10
