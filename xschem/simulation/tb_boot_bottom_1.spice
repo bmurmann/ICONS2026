@@ -10,7 +10,7 @@ Vtrk net4 GND pulse(0 vdd 0 trf trf {per/2} per 0)
 Vsup vdd GND vdd
 Vsup1 vss GND 0
 R1 net1 vi rs m=1
-Cp vc votap cl m=1
+Cl vc votap cl m=1
 G1 vo GND votap GND 100e-3
 S7 vo vc p2 GND SW1
 Cp3 vo GND cl m=1
@@ -25,9 +25,9 @@ R2 track net4 1k m=1
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=1p cp=0 w=32u ng=5
+.param cl=1.3p cb=830f w=35u ng=7
 .param ndft=31 npad=5 bin=15 fclk=500e6 runs=15
-.param per=1/fclk fin=fclk*bin/ndft trf=100p
+.param per=1/fclk fin=fclk*bin/ndft trf=50p
 .param vh=0 rsw=10 roff=1e9 rs=10
 
 .csparam per=per runs=runs
@@ -76,7 +76,6 @@ S2 vdd vtop p2 GND SW1
 S3 vg vtop p1 GND SW1
 S4 vi vbot p1 GND SW1
 S5 GND vg p2 GND SW1
-Cp4 vg GND cp m=1
 XM1 vi vg vo GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
 .ends
 

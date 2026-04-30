@@ -5,14 +5,14 @@ V {}
 S {}
 E {}
 B 2 130 -1180 910 -630 {flags=graph
-y1=-0.078
+y1=-0.95
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=0
-x2=8e-09
+x1=4.0570363e-09
+x2=5.7010971e-09
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -25,12 +25,15 @@ sim_type=tran
 rawfile=./simulation/tb_boot_bottom_4.raw
 autoload=1
 hilight_wave=1
-y2=1.8
+y2=2
 linewidth_mult=2
-color="4 5 6"
+color="4 5 6 11 21"
 node="x6.vg
 vi
-\\"vgs; x6.vg vi -\\""}
+\\"vgs; x6.vg vi -\\"
+x6.vbot
+x6.vtop"
+hcursor1_y=1.0637123}
 N 590 -320 590 -300 {lab=#net1}
 N 200 -500 220 -500 {lab=#net2}
 N 340 -420 380 -420 {lab=#net2}
@@ -80,9 +83,10 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=400f w=32u ng=6
-.param w4=16u ng4=3 w5=5u cw5=2f w6=3u
-.param w3=5u
+.param cl=1.3p cb=1pF w=35u ng=7
+.param w4=17.5u ng4=3
+.param w5=12u cw5=4.7f w6=8u
+.param w3=2.5u*2 w2=5u*2 cw2=2.2f
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=50p
 .param vh=0 rsw=10 roff=1e9 rs=10

@@ -79,8 +79,8 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=600f w=32u ng=5
-.param w4=16u ng4=3
+.param cl=1.3p cb=1pF w=35u ng=7
+.param w4=17.5u ng4=3
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=100p
 .param vh=0 rsw=10 roff=1e9 rs=10

@@ -1,0 +1,40 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_clarge.sch
+**.subckt tb_clarge
+Vsup net3 GND vdd
+Cw1 vout GND 1p m=1
+Vsup1 net1 GND dc 0.6 ac 1
+Cm1 vtop vbot 1p m=1
+XM1 net1 net2 vout GND sg13_lv_nmos w=100u l=0.13u ng=20 m=1
+Vsup2 p1 GND pwl 0 vdd 10n vdd 10.1n 0
+Vsup3 p2 GND pwl 0 0 20n 0 20.1n Vdd
+S1 vbot GND p1 GND SW1
+S2 net3 vtop p1 GND SW1
+S3 net1 vbot p2 GND SW1
+S4 net2 vtop p2 GND SW1
+S5 GND net2 p1 GND SW1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2 vh=0.1 roff=1e9 rsw=10
+.option reltol=1e-6 gmin=1e-15
+
+.control
+    set color0=white    ; Set background to white
+    set color1=black    ; Set grid and text to black
+    set xbrushwidth=5
+    tran 10p 40n
+    plot v(vtop, vbot) yl 1 1.25
+.endc
+.end
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+**** begin user architecture code
+.MODEL SW1 SW
++ VT=0.9 VH=0
++ RON=10 ROFF=10G
+**** end user architecture code
+.end

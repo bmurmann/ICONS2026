@@ -25,9 +25,10 @@ R2 track net4 1k m=1
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=400f w=32u ng=6
-.param w4=16u ng4=3 w5=5u cw5=2f w6=3u
-.param w3=5u
+.param cl=1.3p cb=1pF w=35u ng=7
+.param w4=17.5u ng4=3
+.param w5=12u cw5=4.7f w6=8u
+.param w3=2.5u*2 w2=5u*2 cw2=2.2f
 .param ndft=31 npad=5 bin=5 fclk=500e6 runs=15
 .param per=1/fclk fin=fclk*bin/ndft trf=50p
 .param vh=0 rsw=10 roff=1e9 rs=10
@@ -78,9 +79,11 @@ XM8 vg vdd net1 GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
 XM4 net1 p2 GND GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
 XM6 vbot p2 GND GND sg13_lv_nmos w=w6 l=0.13u ng=1 m=1
 XM5 vtop vg vdd vtop sg13_lv_pmos w=w5 l=0.13u ng=1 m=1
-Cw6 vtop GND cw5 m=1
+Cw6 vtop GND {cw5+cw2} m=1
 XM3 vbot vg vi GND sg13_lv_nmos w=w3 l=0.13u ng=1 m=1
-S3 vg vtop p1 GND SW1
+S3 vdd vg2 p2 GND SW1
+XM2 vg vg2 vtop vtop sg13_lv_pmos w=w2 l=0.13u ng=1 m=1
+S1 vg2 vbot p1 GND SW1
 .ends
 
 .GLOBAL GND

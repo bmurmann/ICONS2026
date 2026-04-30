@@ -11,7 +11,6 @@ N 560 -460 610 -460 {lab=vg}
 N 250 -460 250 -400 {lab=vtop}
 N 490 -310 490 -220 {lab=vi}
 N 250 -310 250 -270 {lab=vbot}
-N 560 -380 610 -380 {lab=vg}
 N 440 -460 560 -460 {lab=vg}
 N 440 -310 490 -310 {lab=vi}
 N 250 -460 380 -460 {lab=vtop}
@@ -27,8 +26,7 @@ N 410 -560 410 -500 {lab=p1}
 N 380 -560 410 -560 {lab=p1}
 N 180 -560 250 -560 {lab=vdd}
 N 250 -560 250 -530 {lab=vdd}
-N 560 -460 560 -380 {lab=vg}
-N 560 -380 560 -350 {lab=vg}
+N 560 -460 560 -350 {lab=vg}
 C {devices/capa.sym} 250 -370 0 0 {name=Cm1
 m=1
 value=cb
@@ -60,11 +58,6 @@ device_model=".MODEL SW1 SW
 C {devices/lab_wire.sym} 640 -500 0 1 {name=p26 sig_type=std_logic lab=p2}
 C {devices/lab_wire.sym} 340 -460 0 0 {name=p28 sig_type=std_logic lab=vtop}
 C {devices/lab_wire.sym} 340 -310 0 0 {name=p29 sig_type=std_logic lab=vbot}
-C {devices/capa.sym} 640 -380 3 0 {name=Cp4
-m=1
-value=cp
-footprint=1206
-device="ceramic capacitor"}
 C {devices/gnd.sym} 210 -240 1 0 {name=l1 lab=GND}
 C {devices/gnd.sym} 210 -480 1 0 {name=l2 lab=GND}
 C {devices/gnd.sym} 250 -230 0 0 {name=l3 lab=GND}
@@ -72,7 +65,6 @@ C {devices/gnd.sym} 390 -500 2 0 {name=l4 lab=GND}
 C {devices/gnd.sym} 620 -500 2 0 {name=l5 lab=GND}
 C {devices/gnd.sym} 390 -350 2 0 {name=l6 lab=GND}
 C {devices/gnd.sym} 670 -460 3 0 {name=l7 lab=GND}
-C {devices/gnd.sym} 670 -380 3 0 {name=l9 lab=GND}
 C {devices/gnd.sym} 560 -250 0 0 {name=l15 lab=GND}
 C {sg13g2_pr/sg13_lv_nmos.sym} 560 -330 3 1 {name=M1
 l=0.13u

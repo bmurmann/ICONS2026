@@ -1,0 +1,31 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_csmall.sch
+**.subckt tb_csmall
+Cw1 vout GND 10p m=1
+Vsup1 vbot GND dc 0.6 ac 1
+Cm1 vtop vbot 1p m=1
+XM1 vbot vtop vout GND sg13_lv_nmos w=100u l=0.13u ng=20 m=1
+Vsup4 net1 vbot vdd
+R1 vtop net1 1e9 m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2
+
+.control
+    set color0=white    ; Set background to white
+    set color1=black    ; Set grid and text to black
+    set xbrushwidth=5
+    nodeset v(vtop)=1.8
+    op
+    print allv
+    ac dec 100 1e6 1e9
+    plot v(vtop) yl 0.95 1.05
+.endc
+.end
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end

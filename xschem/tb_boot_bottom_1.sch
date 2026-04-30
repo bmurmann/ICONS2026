@@ -5,14 +5,14 @@ V {}
 S {}
 E {}
 B 2 130 -1180 910 -630 {flags=graph
-y1=-0.9
+y1=-0.89
 ypos1=0
 ypos2=2
 divy=5
 subdivy=4
 unity=1
-x1=1.0117297e-11
-x2=1.6541781e-09
+x1=0
+x2=8e-09
 divx=5
 subdivx=1
 xlabmag=1.0
@@ -25,12 +25,12 @@ sim_type=tran
 rawfile=./simulation/tb_boot_bottom_1.raw
 autoload=1
 hilight_wave=1
-y2=2
+y2=2.1
 color="4 5 6"
 node="vi
 x6.vg
 \\"vgs; x6.vg vi -\\""
-hcursor1_y=1.1475832}
+hcursor1_y=1.1111233}
 N 590 -320 590 -300 {lab=#net1}
 N 280 -500 300 -500 {lab=#net2}
 N 420 -420 460 -420 {lab=#net2}
@@ -80,9 +80,9 @@ value="
 .lib cornerMOSlv.lib mos_tt
 .inc /foss/pdks/ihp-sg13g2/libs.ref/sg13g2_stdcell/spice/sg13g2_stdcell.spice
 .param vdd=1.2 viq=0.6 vamp=0.3
-.param cl=1.3p cb=1p cp=0 w=32u ng=5
+.param cl=1.3p cb=830f w=35u ng=7
 .param ndft=31 npad=5 bin=15 fclk=500e6 runs=15
-.param per=1/fclk fin=fclk*bin/ndft trf=100p
+.param per=1/fclk fin=fclk*bin/ndft trf=50p
 .param vh=0 rsw=10 roff=1e9 rs=10
 
 .csparam per=per runs=runs
@@ -142,7 +142,7 @@ value=rs
 footprint=1206
 device=resistor
 m=1}
-C {devices/capa.sym} 1100 -320 3 0 {name=Cp
+C {devices/capa.sym} 1100 -320 3 0 {name=Cl
 m=1
 value=cl
 footprint=1206

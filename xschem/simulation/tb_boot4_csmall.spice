@@ -1,0 +1,46 @@
+** sch_path: /foss/designs/ICONS2026/xschem/tb_boot4_csmall.sch
+**.subckt tb_boot4_csmall p2 vdd
+*.ipin p2
+*.iopin vdd
+Vsup4 net5 vbot vdd
+Cm2 vtop vbot cb m=1
+XM2 net1 net4 net3 GND sg13_lv_nmos w=w l=0.13u ng=ng m=1
+XM8 vg vdd net2 GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM4 net2 p2 GND GND sg13_lv_nmos w=w4 l=0.13u ng=ng4 m=1
+XM6 vbot p2 GND GND sg13_lv_nmos w=w6 l=0.13u ng=1 m=1
+XM5 vtop vg vdd vtop sg13_lv_pmos w=w5 l=0.13u ng=1 m=1
+Cw6 vtop GND {cw5+cw2} m=1
+XM3 vbot net4 net1 GND sg13_lv_nmos w=w3 l=0.13u ng=1 m=1
+XM7 vg vbot vtop vtop sg13_lv_pmos w=w2 l=0.13u ng=1 m=1
+Cw1 net3 GND cl m=1
+Vsup1 net1 GND dc 0.6 ac 1
+Vsup2 p2 GND 0
+Vsup3 p1 GND vdd
+E1 net4 GND vg GND 1
+L14 vtop net5 1k m=1
+**** begin user architecture code
+
+
+.lib cornerMOSlv.lib mos_tt
+.param vdd=1.2
+.param cl=1.3p cb=1pF w=35u ng=7
+.param w4=17.5u ng4=3
+.param w5=12u cw5=4.7f w6=8u
+.param w3=5u w2=10u cw2=4f
+.option gmin=1e-15
+.control
+    set color0=white
+    set color1=black
+    set xbrushwidth=4
+    op
+    print allv
+    ac dec 100 1e7 10e9
+    plot v(vg) yl 0.95 1
+.endc
+.end
+
+
+**** end user architecture code
+**.ends
+.GLOBAL GND
+.end
